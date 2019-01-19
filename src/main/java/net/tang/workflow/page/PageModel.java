@@ -1,4 +1,4 @@
-package net.tang.workflow.model;
+package net.tang.workflow.page;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
 
 @Data
-public class SystemModel implements Serializable {
+public class PageModel implements Serializable {
 	
 	private static final long serialVersionUID = 3699815864487040479L;
     
@@ -107,8 +107,8 @@ public class SystemModel implements Serializable {
 	 * 增加key值
 	 * @param models
 	 */
-	public void addModelKey(List<? extends SystemModel> models) {
-		for (SystemModel systemModel : models) {
+	public void addModelKey(List<? extends PageModel> models) {
+		for (PageModel systemModel : models) {
 			if(systemModel != null) {
 				systemModel.setKey(systemModel.getId());
 			}

@@ -21,11 +21,10 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.baomidou.mybatisplus.extension.api.R;
-
-import net.tang.entity.User;
+import net.tang.workflow.model.User;
 import net.tang.workflow.model.WorkflowDo;
 import net.tang.workflow.model.WorkflowEntity;
+import net.tang.workflow.page.DataWrapper;
 
 /**
  * 工作流程业务的标准实现。实现了一些通用的流程业务，个性业务需要单独实现。
@@ -38,9 +37,9 @@ public abstract class StandardWorkflowController extends WorkflowResourceProvide
 	 * @return
 	 */
 	@GetMapping("/entity")
-	public R<Integer> getEntityId(@RequestParam("entityCode") String entityCode) {
+	public DataWrapper<Integer> getEntityId(@RequestParam("entityCode") String entityCode) {
 		WorkflowEntity entity = entityService.getEntity(entityCode);
-		return R.data(entity.getId());
+		return DataWrapper.data(entity.getId());
 	}
     
 	/**
@@ -49,9 +48,9 @@ public abstract class StandardWorkflowController extends WorkflowResourceProvide
 	 * @return
 	 */
     @GetMapping("/actions")
-	public R<List<Map<String, String>>> getActions(@RequestParam("stepId") Integer stepId) {
+	public DataWrapper<List<Map<String, String>>> getActions(@RequestParam("stepId") Integer stepId) {
 		List<Map<String, String>> list = GenericWorking.warpAction(workflow.getActionsForStep(stepId));
-		return R.data(list);
+		return DataWrapper.data(list);
 	}
 
     /**
@@ -62,9 +61,9 @@ public abstract class StandardWorkflowController extends WorkflowResourceProvide
      * @return
      */
 	@GetMapping("/current")
-	public R<WorkflowDo> getCurrentStep(@RequestParam("entityCode") String entityCode, @RequestParam("busyId") Integer busyId) {
+	public DataWrapper<WorkflowDo> getCurrentStep(@RequestParam("entityCode") String entityCode, @RequestParam("busyId") Integer busyId) {
 		WorkflowDo flowDo = workflow.getCurrentStep(workflow.getEntityId(entityCode), busyId);
-		return R.data(flowDo);
+		return DataWrapper.data(flowDo);
 	}
 
 	/**
@@ -75,9 +74,9 @@ public abstract class StandardWorkflowController extends WorkflowResourceProvide
 	 * @return
 	 */
 	@GetMapping("/part")
-	public R<Integer> participant(@RequestParam("entityCode") String entityCode, User user) {
-		Integer ident = workflow.workflowPart(workflow.getEntityId(entityCode), user.getUserId());
-		return R.data(ident);
+	public DataWrapper<Integer> participant(@RequestParam("entityCode") String entityCode, User user) {
+		Integer ident = workflow.workflowPart(workflow.getEntityId(entityCode), user.getId());
+		return DataWrapper.data(ident);
 	}
 
 }

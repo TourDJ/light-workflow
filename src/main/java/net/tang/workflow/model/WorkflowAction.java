@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.tang.workflow.page.PageModel;
 
 /**
  * Workflow's action model, describe the action's properties.
@@ -29,7 +30,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @TableName("workflow_action")
-public class WorkflowAction extends SystemModel {
+public class WorkflowAction extends PageModel {
 
 	private static final long serialVersionUID = 1L;
 

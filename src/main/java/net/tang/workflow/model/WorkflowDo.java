@@ -10,7 +10,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.tang.tools.DatePattern;
+import net.tang.workflow.page.PageModel;
+import net.tang.workflow.tools.DatePattern;
 
 /**
  * 流程操作实体
@@ -20,7 +21,7 @@ import net.tang.tools.DatePattern;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @TableName("workflow_do")
-public class WorkflowDo extends SystemModel {
+public class WorkflowDo extends PageModel {
 
 	private static final long serialVersionUID = 1L;
 

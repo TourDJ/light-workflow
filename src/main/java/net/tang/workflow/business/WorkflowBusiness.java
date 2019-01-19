@@ -15,8 +15,8 @@
  */
 package net.tang.workflow.business;
 
-import net.tang.entity.User;
 import net.tang.workflow.core.ActionInfo;
+import net.tang.workflow.model.User;
 
 /**
  * 流程业务接口

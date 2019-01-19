@@ -1,4 +1,4 @@
-package net.tang.service;
+package net.tang.workflow.service;
 
 public interface BaseService {
 

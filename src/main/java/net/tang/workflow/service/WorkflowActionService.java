@@ -9,9 +9,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import net.tang.tools.WrapperProcess;
 import net.tang.workflow.mapper.WorkflowActionMapper;
 import net.tang.workflow.model.WorkflowAction;
+import net.tang.workflow.page.WrapperProcess;
 
 @Service
 public class WorkflowActionService extends ServiceImpl<WorkflowActionMapper, WorkflowAction> {

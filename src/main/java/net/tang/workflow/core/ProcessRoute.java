@@ -12,7 +12,11 @@ import net.tang.workflow.WorkflowConstants;
  *
  */
 public final class ProcessRoute {
-
+	
+	public static final String WORKFLOW_STEP_FIRST = "申请人";
+	
+	public static final String WORKFLOW_STEP_LAST = "完成";
+	
 	/**
 	 * 业务流程单步集合
 	 */
@@ -52,7 +56,7 @@ public final class ProcessRoute {
 	 * 流程开始步骤
 	 */
 	private void drawBeginFlow() {
-		processBegin = add(0, WorkflowConstants.WORKFLOW_STEP_FIRST, false);
+		processBegin = add(0, WORKFLOW_STEP_FIRST, false);
 		points.add(processBegin);
 	}
 
@@ -61,7 +65,7 @@ public final class ProcessRoute {
 	 */
 	private void drawEndFlow() {
 		int end = points.size();
-		processEnd = add(end, WorkflowConstants.WORKFLOW_STEP_LAST, false);
+		processEnd = add(end, WORKFLOW_STEP_LAST, false);
 		points.add(processEnd);
 	}
 

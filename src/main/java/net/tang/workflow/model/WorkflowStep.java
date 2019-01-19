@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.tang.workflow.page.PageModel;
 
 /**
  * 
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @TableName("workflow_step")
-public class WorkflowStep extends SystemModel {
+public class WorkflowStep extends PageModel {
 
 	private static final long serialVersionUID = 1L;
 

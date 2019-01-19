@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.tang.core.tools.Wrapper;
 import net.tang.entity.City;
 import net.tang.service.ICityService;
+import net.tang.workflow.page.DataWrapper;
 
 @RestController
 @RequestMapping("/city")
@@ -24,10 +24,10 @@ public class CityController {
 	 * @return
 	 */
 	@GetMapping("/detail")
-	public Wrapper detail(City city) {
+	public DataWrapper detail(City city) {
 		Integer id = city.getId();
 		City result = cityService.findCityById(id);
-		return Wrapper.data(result);
+		return DataWrapper.data(result);
 	}
 	
 	/**
@@ -36,8 +36,8 @@ public class CityController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public Wrapper save(@RequestBody City city) {
-		return Wrapper.status(cityService.saveCity(city));
+	public DataWrapper save(@RequestBody City city) {
+		return DataWrapper.status(cityService.saveCity(city));
 	}
 	
 	/**
@@ -46,8 +46,8 @@ public class CityController {
 	 * @return
 	 */
 	@PostMapping("/update")
-	public Wrapper update(@RequestBody City city) {
-		return Wrapper.status(cityService.updateCity(city));
+	public DataWrapper update(@RequestBody City city) {
+		return DataWrapper.status(cityService.updateCity(city));
 	}
 	
 	/**
@@ -56,9 +56,9 @@ public class CityController {
 	 * @return
 	 */
 	@PostMapping("/delete")
-	public Wrapper delete(@RequestBody City city) {
+	public DataWrapper delete(@RequestBody City city) {
 		Integer id = city.getId();
-		return Wrapper.status(cityService.deleteCity(id));
+		return DataWrapper.status(cityService.deleteCity(id));
 	}
 	
 }

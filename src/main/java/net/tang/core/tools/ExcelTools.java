@@ -1,4 +1,4 @@
-package net.tang.tools;
+package net.tang.core.tools;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

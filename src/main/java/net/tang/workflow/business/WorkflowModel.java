@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.tang.core.tools.PageModel;
-import net.tang.tools.DatePattern;
+import net.tang.workflow.page.PageModel;
+import net.tang.workflow.tools.DatePattern;
 
 /**
  * 流程基础模型类

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.tang.tools.CommonConstants;
 import net.tang.workflow.WorkflowConstants;
 import net.tang.workflow.business.WorkflowModel;
 import net.tang.workflow.model.WorkflowAction;
@@ -33,6 +32,7 @@ import net.tang.workflow.service.WorkflowDetailService;
 import net.tang.workflow.service.WorkflowDoService;
 import net.tang.workflow.service.WorkflowEntityService;
 import net.tang.workflow.service.WorkflowStepService;
+import net.tang.workflow.tools.CommonConstants;
 
 /**
  * 基本流程实现。

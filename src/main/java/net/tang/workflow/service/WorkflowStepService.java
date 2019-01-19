@@ -17,11 +17,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import net.tang.core.tools.CommonUtils;
 import net.tang.core.tools.CriteriaBuilder;
-import net.tang.core.tools.WrapperProcess;
-import net.tang.tools.Pages;
 import net.tang.workflow.WorkflowConstants;
 import net.tang.workflow.mapper.WorkflowStepMapper;
 import net.tang.workflow.model.WorkflowStep;
+import net.tang.workflow.page.Pages;
+import net.tang.workflow.page.WrapperProcess;
 
 @Service
 public class WorkflowStepService extends ServiceImpl<WorkflowStepMapper, WorkflowStep> {

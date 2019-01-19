@@ -1,4 +1,4 @@
-package net.tang.core.tools;
+package net.tang.workflow.page;
 
 import java.io.Serializable;
 
@@ -9,12 +9,14 @@ import lombok.ToString;
 @Data
 @ToString
 @AllArgsConstructor
-public class Wrapper<T> implements Serializable {
+public class DataWrapper<T> implements Serializable {
 
 	private static final long serialVersionUID = -4911762250330643779L;
 	
 	private int status;
+	
 	private String message;
+	
 	private T data;
 	
 	/**
@@ -22,8 +24,8 @@ public class Wrapper<T> implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public static <T> Wrapper<T> data(T data){
-		return new Wrapper<T>(200, "success", data);
+	public static <T> DataWrapper<T> data(T data) {
+		return new DataWrapper<T>(200, "success", data);
 	}
 	
 	/**
@@ -31,7 +33,7 @@ public class Wrapper<T> implements Serializable {
 	 * @param bool
 	 * @return
 	 */
-	public static Wrapper<Boolean> status(Boolean bool){
+	public static DataWrapper<Boolean> status(Boolean bool){
 		return data(bool);
 	}
 }

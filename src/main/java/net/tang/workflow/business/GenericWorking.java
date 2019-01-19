@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import net.tang.core.tools.CommonUtils;
-import net.tang.service.UserService;
+import net.tang.workflow.WorkflowConstants;
 import net.tang.workflow.core.ActionInfo;
 import net.tang.workflow.core.ActionResult;
 import net.tang.workflow.core.BasicWorkflow;
@@ -34,6 +33,7 @@ import net.tang.workflow.core.Workflow;
 import net.tang.workflow.model.WorkflowAction;
 import net.tang.workflow.model.WorkflowDo;
 import net.tang.workflow.model.WorkflowStep;
+import net.tang.workflow.service.UserService;
 import net.tang.workflow.service.WorkflowActionService;
 import net.tang.workflow.service.WorkflowDetailService;
 import net.tang.workflow.service.WorkflowDoService;
@@ -41,8 +41,9 @@ import net.tang.workflow.service.WorkflowEntityService;
 import net.tang.workflow.service.WorkflowStepService;
 
 /**
- * 流程通用处理类
- *
+ * 	流程通用处理类
+ *	@author tang
+ *	@since 2018
  */
 public class GenericWorking {
 	
@@ -200,8 +201,7 @@ public class GenericWorking {
 	 * @param workflowCode
 	 * @return
 	 */
-	public static boolean beginWorkflow(NoticeService noticeService, MenuService menuService, WorkflowModel workflowModel,
-			Integer userId, Workflow workflow, BusinessService service) {
+	public static boolean beginWorkflow(WorkflowModel workflowModel, Integer userId, Workflow workflow, BusinessService service) {
 		boolean flag = false;
 		int id = workflowModel.getId();
 		if (id > 0) {
@@ -209,7 +209,7 @@ public class GenericWorking {
 			String deal = workflow.startWorkflow(entityId, id, userId);
 			if (deal != null && !"".equals(deal)) {
 				//给审核人发送消息
-				sendNotice(noticeService, menuService, workflow, entityId, deal);
+//				sendNotice(workflow, entityId, deal);
 				
 				workflowModel.setAuditPerson(deal);
 				flag = service.updateModel(workflowModel);
@@ -218,28 +218,28 @@ public class GenericWorking {
 		return flag;
 	}
 
-	/**
-	 * 流程发起成功后，发送消息提醒
-	 * @param noticeService
-	 * @param menuService
-	 * @param workflow
-	 * @param entityId
-	 * @param deal
-	 */
-	private static void sendNotice(NoticeService noticeService, MenuService menuService, Workflow workflow,
-			int entityId, String deal) {
-		if(deal != null) {
-			String[] deals = deal.split(",");
-			for (int i = 0, len = deals.length; i < len; i++) {
-				Integer dealer = CommonUtils.parseInt(deals[i]);
-				if(dealer > 0) {
-					String entityName = workflow.getWorkflowName(entityId);
-					String url = menuService.getUrl(entityName);
-					noticeService.sendNotice(entityName, url, dealer, NOTICE_CLASSIFY_AUDIT_REMIND);
-				}
-			}
-		}
-	}
+//	/**
+//	 * 流程发起成功后，发送消息提醒
+//	 * @param noticeService
+//	 * @param menuService
+//	 * @param workflow
+//	 * @param entityId
+//	 * @param deal
+//	 */
+//	private static void sendNotice(NoticeService noticeService, MenuService menuService, Workflow workflow,
+//			int entityId, String deal) {
+//		if(deal != null) {
+//			String[] deals = deal.split(",");
+//			for (int i = 0, len = deals.length; i < len; i++) {
+//				Integer dealer = CommonUtils.parseInt(deals[i]);
+//				if(dealer > 0) {
+//					String entityName = workflow.getWorkflowName(entityId);
+//					String url = menuService.getUrl(entityName);
+//					noticeService.sendNotice(entityName, url, dealer, NOTICE_CLASSIFY_AUDIT_REMIND);
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * 设置流程是否可操作的状态信息
@@ -265,15 +265,15 @@ public class GenericWorking {
 	 */
 	public static void setAuditQueryInfo(WorkflowModel workflowModel, Workflow workflow, 
 						Integer userId, BusinessService service) {
-		int status = BUSY_WORKFLOW_DEAL_ONGING;
-		if(BUSY_WORKFLOW_STATUS_PROGRESS.equals(workflowModel.getWorkflowStatus()))
-			status = BUSY_WORKFLOW_DEAL_ONGING;
+		int status = WorkflowConstants.BUSY_WORKFLOW_DEAL_ONGING;
+		if(WorkflowConstants.BUSY_WORKFLOW_STATUS_PROGRESS.equals(workflowModel.getWorkflowStatus()))
+			status = WorkflowConstants.BUSY_WORKFLOW_DEAL_ONGING;
 		else
-			status = BUSY_WORKFLOW_DEAL_END;
+			status = WorkflowConstants.BUSY_WORKFLOW_DEAL_END;
 		
 		Integer entityId = getEntityId(workflow, service);
-		workflowModel.setApplyTime();
-		workflowModel.setAuditTime();
+//		workflowModel.setApplyTime();
+//		workflowModel.setAuditTime();
 		workflowModel.setEntityId(entityId);
 		workflowModel.assembling(10, 1);
 	}
@@ -282,10 +282,10 @@ public class GenericWorking {
 	 * 检查流程状态
 	 * @param workflowModel
 	 */
-	public static void checkWorkstatus(WorkflowModel workflowModel) {
-		if(workflowModel.getWorkflowStatus() == null || "".equals(workflowModel.getWorkflowStatus()))
-			workflowModel.setWorkflowStatus(BUSY_WORKFLOW_STATUS_PROGRESS);
-	}
+//	public static void checkWorkstatus(WorkflowModel workflowModel) {
+//		if(workflowModel.getWorkflowStatus() == null || "".equals(workflowModel.getWorkflowStatus()))
+//			workflowModel.setWorkflowStatus(WorkflowConstants.BUSY_WORKFLOW_STATUS_PROGRESS);
+//	}
 
 	/**
 	 * 获取操作人的查询角色
@@ -304,35 +304,35 @@ public class GenericWorking {
 		return part;
 	}
 
-	/**
-	 * 流程处理的核心逻辑
-	 * @param noticeService
-	 * @param menuService
-	 * @param workflow
-	 * @param actionInfo
-	 * @param busiId
-	 * @param entityCode
-	 * @param service
-	 * @return
-	 */
-	public static ActionResult dealWorkdlow(INoticeService noticeService, IMenuService menuService, Workflow workflow,
-			ActionInfo actionInfo, Integer userId, BusinessService service) {
-		ActionResult result = ActionResult.initial();
-		addUserId(actionInfo, userId);
-		//处理之前检查一下当前步骤的状态
-		Integer busiId = actionInfo.getBusyId();
-		if(busiId != null) {
-			WorkflowModel workflowModel = service.getModel(busiId);
-			if(workflowModel != null) {
-				result = dealBeforeCheck(workflowModel);
-				if(result == null) {
-					result = dealBusiness(workflow, actionInfo, service);
-					afterDealAction(noticeService, menuService, workflow, busiId, result, service);
-				}
-			}
-		}
-		return result;
-	}
+//	/**
+//	 * 流程处理的核心逻辑
+//	 * @param noticeService
+//	 * @param menuService
+//	 * @param workflow
+//	 * @param actionInfo
+//	 * @param busiId
+//	 * @param entityCode
+//	 * @param service
+//	 * @return
+//	 */
+//	public static ActionResult dealWorkdlow(INoticeService noticeService, IMenuService menuService, Workflow workflow,
+//			ActionInfo actionInfo, Integer userId, BusinessService service) {
+//		ActionResult result = ActionResult.initial();
+//		addUserId(actionInfo, userId);
+//		//处理之前检查一下当前步骤的状态
+//		Integer busiId = actionInfo.getBusyId();
+//		if(busiId != null) {
+//			WorkflowModel workflowModel = service.getModel(busiId);
+//			if(workflowModel != null) {
+//				result = dealBeforeCheck(workflowModel);
+//				if(result == null) {
+//					result = dealBusiness(workflow, actionInfo, service);
+//					afterDealAction(noticeService, menuService, workflow, busiId, result, service);
+//				}
+//			}
+//		}
+//		return result;
+//	}
 
 	/**
 	 * 流程业务处理
@@ -356,7 +356,7 @@ public class GenericWorking {
 					WorkflowModel workflowModel = service.getModel(id);
 					if(workflowModel != null) {
 						message = dealAction(map, workflowModel);
-						if (workflowModel.getStatus() == BUSY_ORDER_STATUS_ONGOING) {
+						if (workflowModel.getStatus() == WorkflowConstants.BUSY_ORDER_STATUS_ONGOING) {
 							WorkflowStep step = (WorkflowStep) map.get("step");
 							if(step != null) {
 								String dealer = workflow.getCurrentDealer();
@@ -382,70 +382,70 @@ public class GenericWorking {
 		return result;
 	}
 
-	/**
-	 * 流程处理后操作
-	 * @param noticeService
-	 * @param menuService
-	 * @param workflow
-	 * @param busiId
-	 * @param entityCode
-	 * @param result
-	 * @param service
-	 */
-	private static void afterDealAction(INoticeService noticeService, IMenuService menuService, Workflow workflow,
-			Integer busiId, ActionResult result, BusinessService service) {
-		if(result != null) {
-			boolean flag = (boolean) result.isFlag();
-			if(flag) {
-				WorkflowModel workflowModel = service.getModel(busiId);
-				sendNoticeAfterDeal(noticeService, menuService, workflowModel, workflow, service);
-			}
-		}
-	}
+//	/**
+//	 * 流程处理后操作
+//	 * @param noticeService
+//	 * @param menuService
+//	 * @param workflow
+//	 * @param busiId
+//	 * @param entityCode
+//	 * @param result
+//	 * @param service
+//	 */
+//	private static void afterDealAction(INoticeService noticeService, IMenuService menuService, Workflow workflow,
+//			Integer busiId, ActionResult result, BusinessService service) {
+//		if(result != null) {
+//			boolean flag = (boolean) result.isFlag();
+//			if(flag) {
+//				WorkflowModel workflowModel = service.getModel(busiId);
+//				sendNoticeAfterDeal(noticeService, menuService, workflowModel, workflow, service);
+//			}
+//		}
+//	}
 
-	/**
-	 * 流程处理后发送消息
-	 * @param noticeService
-	 * @param menuService
-	 * @param workflowModel
-	 * @param workflow
-	 * @param entityCode
-	 */
-	public static void sendNoticeAfterDeal(INoticeService noticeService, IMenuService menuService, WorkflowModel workflowModel, 
-			Workflow workflow, BusinessService service) {
-		if(workflowModel != null) {
-			Integer userId = 1;
-			Integer entityId = getEntityId(workflow, service);
-			String entityName = workflow.getWorkflowName(entityId);
-			String url = menuService.getUrl(entityName);
-			if(workflowModel.getStatus() == 1 &&
-					BUSY_WORKFLOW_STATUS_FINISH.equals(workflowModel.getWorkflowStatus().trim())) {
-				
-				//审批通过后发送消息
-				noticeService.sendNotice(entityName, url, userId, NOTICE_CLASSIFY_APPLY_SUCCESS);
-				
-			} else if (workflowModel.getStatus() == BUSY_ORDER_STATUS_DRAFT &&
-					BUSY_WORKFLOW_STATUS_FINISH.equals(workflowModel.getWorkflowStatus().trim())) {
-				
-				//审批拒绝后发送消息
-				noticeService.sendNotice(entityName, url, userId, NOTICE_CLASSIFY_APPLY_FAIL);
-				
-			} else if (workflowModel.getStatus() == BUSY_ORDER_STATUS_ONGOING) {
-				//给审核人发送消息
-				String deal = workflowModel.getAuditPerson();
-				String[] deals = null;
-				if(deal != null) {
-					deals = deal.split(",");
-					for (int i = 0, len = deals.length; i < len; i++) {
-						Integer dealer = CommonUtils.parseInt(deals[i]);
-						if(dealer > 0) {
-							noticeService.sendNotice(entityName, url, dealer, NOTICE_CLASSIFY_AUDIT_REMIND);
-						}
-					}
-				}
-			}
-		}
-	}
+//	/**
+//	 * 流程处理后发送消息
+//	 * @param noticeService
+//	 * @param menuService
+//	 * @param workflowModel
+//	 * @param workflow
+//	 * @param entityCode
+//	 */
+//	public static void sendNoticeAfterDeal(INoticeService noticeService, IMenuService menuService, WorkflowModel workflowModel, 
+//			Workflow workflow, BusinessService service) {
+//		if(workflowModel != null) {
+//			Integer userId = 1;
+//			Integer entityId = getEntityId(workflow, service);
+//			String entityName = workflow.getWorkflowName(entityId);
+//			String url = menuService.getUrl(entityName);
+//			if(workflowModel.getStatus() == 1 &&
+//					BUSY_WORKFLOW_STATUS_FINISH.equals(workflowModel.getWorkflowStatus().trim())) {
+//				
+//				//审批通过后发送消息
+//				noticeService.sendNotice(entityName, url, userId, NOTICE_CLASSIFY_APPLY_SUCCESS);
+//				
+//			} else if (workflowModel.getStatus() == BUSY_ORDER_STATUS_DRAFT &&
+//					BUSY_WORKFLOW_STATUS_FINISH.equals(workflowModel.getWorkflowStatus().trim())) {
+//				
+//				//审批拒绝后发送消息
+//				noticeService.sendNotice(entityName, url, userId, NOTICE_CLASSIFY_APPLY_FAIL);
+//				
+//			} else if (workflowModel.getStatus() == BUSY_ORDER_STATUS_ONGOING) {
+//				//给审核人发送消息
+//				String deal = workflowModel.getAuditPerson();
+//				String[] deals = null;
+//				if(deal != null) {
+//					deals = deal.split(",");
+//					for (int i = 0, len = deals.length; i < len; i++) {
+//						Integer dealer = CommonUtils.parseInt(deals[i]);
+//						if(dealer > 0) {
+//							noticeService.sendNotice(entityName, url, dealer, NOTICE_CLASSIFY_AUDIT_REMIND);
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * 撤回流程

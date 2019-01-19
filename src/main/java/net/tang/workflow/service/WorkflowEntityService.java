@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import net.tang.tools.WrapperProcess;
 import net.tang.workflow.mapper.WorkflowEntityMapper;
 import net.tang.workflow.model.WorkflowEntity;
+import net.tang.workflow.page.WrapperProcess;
 
 @Service
 public class WorkflowEntityService extends ServiceImpl<WorkflowEntityMapper, WorkflowEntity> {
