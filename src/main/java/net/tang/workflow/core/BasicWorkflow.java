@@ -32,7 +32,6 @@ import net.tang.workflow.service.WorkflowDetailService;
 import net.tang.workflow.service.WorkflowDoService;
 import net.tang.workflow.service.WorkflowEntityService;
 import net.tang.workflow.service.WorkflowStepService;
-import net.tang.workflow.tools.CommonConstants;
 
 /**
  * 基本流程实现。

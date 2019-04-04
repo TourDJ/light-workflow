@@ -21,7 +21,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import net.tang.workflow.model.User;
+import net.tang.business.model.User;
 import net.tang.workflow.model.WorkflowDo;
 import net.tang.workflow.model.WorkflowEntity;
 import net.tang.workflow.page.DataWrapper;

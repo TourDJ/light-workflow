@@ -20,7 +20,9 @@ public enum HandlingType {
 	/**
 	 * 部门
 	 */
-	DEPARTMENT(3)
+	DEPARTMENT(3),
+	
+	DEFINE(4)
 	;
 	
 	//

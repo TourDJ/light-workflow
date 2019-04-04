@@ -1,4 +1,4 @@
-package net.tang.workflow.model;
+package net.tang.business.model;
 
 import lombok.Data;
 

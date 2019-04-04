@@ -30,7 +30,7 @@ import net.tang.workflow.service.WorkflowEntityService;
 import net.tang.workflow.service.WorkflowStepService;
 
 /**
- * 流程核心接口。
+ * Workflow's core interface which defined the basic flow function.
  * @author tang
  *
  */
